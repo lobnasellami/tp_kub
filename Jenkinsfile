@@ -24,7 +24,7 @@ pipeline {
          stage("image creation"){
             steps {                
                 script {
-                        sh "docker build -t devopstp ."
+                        docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
                        }            
                 }
           } 
