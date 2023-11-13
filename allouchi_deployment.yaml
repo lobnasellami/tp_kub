@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: allouchi-deployment
+  labels:
+    app: allouchi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: allouchi
+  template:
+    metadata:
+      labels:
+        app: allouchi
+    spec:
+      containers:
+      - name: allouchi
+        image: eyasoussi/allouchi-app:v2
+        ports:
+        - containerPort: 80
