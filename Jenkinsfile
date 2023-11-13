@@ -4,7 +4,9 @@ pipeline {
 
   environment {
             DOCKER_HUB_CREDENTIALS = credentials('dockerCredentials')
-      
+            DOCKER_IMAGE_NAME = 'lobnasellami/devopstp'
+            DOCKER_IMAGE_TAG = 'latest'
+
 
        
     }
@@ -33,7 +35,7 @@ pipeline {
                     echo "======== executing ========"
                         echo "push to hub"
                         docker.withRegistry("${DOCKER_HUB_CREDENTIALS}") {
-                          docker.image("lobnasellami/devopstp:latest").push() 
+                        docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
                         }
                  }        
             }
