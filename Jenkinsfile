@@ -1,45 +1,40 @@
 pipeline {
-
   agent any
 
   environment {
-            DOCKER_HUB_CREDENTIALS = credentials('dockerCredentials')
-            DOCKER_IMAGE_NAME = 'lobnasellami/devopstp'
-            DOCKER_IMAGE_TAG = 'latest'
-
-
-       
-    }
+    DOCKER_HUB_CREDENTIALS = credentials('dockerCredentials')
+    DOCKER_IMAGE_NAME = 'lobnasellami/devopstp'
+    DOCKER_IMAGE_TAG = 'latest'
+  }
 
   stages {
+    stage("Getting Code") {
+      steps {
+        git url: 'https://github.com/lobnasellami/tp_kub.git', branch: 'master',
+        credentialsId: 'github-credentials'
+      }
+    }
 
-    stage("getting code") {
-            steps {
-                git url: 'https://github.com/lobnasellami/tp_kub.git', branch: 'master',
-                credentialsId: 'github-credentials' //jenkins-github-creds
-            }
+    stage("Build Docker Image") {
+      steps {
+        script {
+          docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
         }
+      }
+    }
 
-    //build de l'image
-         stage("image creation"){
-            steps {                
-                script {
-                        docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
-                       }            
-                }
-          } 
+    stage("Push to Docker Hub") {
+      steps {
+        script {
+          echo "======== executing ========"
+          echo "push to hub"
+          docker.withRegistry("${DOCKER_HUB_CREDENTIALS}") {
+            docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
+          }
+        }
+      }
+    }
 
-     stage("push to docker hub") {
-            steps {                
-                script {
-                    echo "======== executing ========"
-                        echo "push to hub"
-                        docker.withRegistry("${DOCKER_HUB_CREDENTIALS}") {
-                        docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
-                        }
-                 }        
-            }
-      }   
     stage('Deploying App to Kubernetes') {
       steps {
         script {
@@ -47,7 +42,5 @@ pipeline {
         }
       }
     }
-
   }
-
 }
