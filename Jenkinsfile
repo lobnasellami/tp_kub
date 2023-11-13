@@ -31,6 +31,7 @@ pipeline {
                         echo "push to hub"
                   withCredentials([usernamePassword(credentialsId: 'dockerCredentials', usernameVariable:
 'USERNAME', passwordVariable: 'PASSWORD')]){
+                        sh "docker login -u lobnasellami"
                         sh "docker tag devopstp lobnasellami/devopstp:v1"
                         sh "docker push lobnasellami/devopstp:v1"
                        }
