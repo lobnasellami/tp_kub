@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: allouchi
-        image: eyasoussi/allouchi-app:v2
+        image: lobnasellami/jenkins-pipeline:latest
         ports:
         - containerPort: 80
