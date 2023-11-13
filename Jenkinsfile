@@ -10,7 +10,7 @@ pipeline {
 
     stage("getting code") {
             steps {
-                git url: 'https://github.com/lobnasellami/tp_kub.git', branch: 'main',
+                git url: 'https://github.com/lobnasellami/tp_kub.git', branch: 'master',
                 credentialsId: 'github-credentials' //jenkins-github-creds
             }
         }
