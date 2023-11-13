@@ -30,7 +30,7 @@ pipeline {
                     echo "push to hub"
                          docker.withRegistry('https://registry-1.docker.io/v1/', 'docker_pass') {
                         def dockerImage = docker.image("lobnasellami/jenkins-pipeline:latest")
-                        dockerImage.push()
+                        dockerImage.push()}
 
 
                 }
