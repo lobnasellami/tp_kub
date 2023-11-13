@@ -32,15 +32,11 @@ pipeline {
                 script {
                     echo "======== executing ========"
                         echo "push to hub"
-                  withCredentials([usernamePassword(credentialsId: 'dockerCredentials', usernameVariable:
-'USERNAME', passwordVariable: 'PASSWORD')]){
                         docker.withRegistry("${DOCKER_HUB_CREDENTIALS}") {
-                        docker.image("lobnasellami/devopstp:latest").push()
-
-                        
-                       }
-                   }        
-              }
+                          docker.image("lobnasellami/devopstp:latest").push() 
+                        }
+                 }        
+            }
       }   
     stage('Deploying App to Kubernetes') {
       steps {
