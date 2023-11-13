@@ -28,9 +28,10 @@ pipeline {
                 script {
                     echo "======== executing ========"
                     echo "push to hub"
-                 sh 'docker login -u lobnasellami -p $DOCKER_HUB_PASSWORD'
+         withCredentials([usernamePassword(credentialsId: 'docker_pass', usernameVariable:
+            'USERNAME', passwordVariable: 'PASSWORD')]){
                  sh 'docker push lobnasellami/jenkins-pipeline:latest'
-
+                                      }
 
                 }
             }
