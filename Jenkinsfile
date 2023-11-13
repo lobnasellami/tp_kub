@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_PASSWORD = credentials('docker_pass')
-        credentials('mykubeConfig')
+        KUBE_CONFIG_FILE = credentials('mykubeConfig')
         BUILD_TAG = "${BUILD_NUMBER}"
     }
 
