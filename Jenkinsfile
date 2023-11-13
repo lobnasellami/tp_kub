@@ -3,14 +3,14 @@ pipeline {
   agent any
 
   environment {
-        DOCKER_HUB_CREDENTIALS = credentials('dockerCredentials')
+        dockerCredentials = credentials('dockerCredentials')
     }
 
   stages {
 
     stage("getting code") {
             steps {
-                git url: 'https://github.com/eyasoussi/tp_Kubernetes.git', branch: 'main',
+                git url: 'https://github.com/lobnasellami/tp_kub.git', branch: 'main',
                 credentialsId: 'github-credentials' //jenkins-github-creds
             }
         }
@@ -31,8 +31,8 @@ pipeline {
                         echo "push to hub"
                   withCredentials([usernamePassword(credentialsId: 'dockerCredentials', usernameVariable:
 'USERNAME', passwordVariable: 'PASSWORD')]){
-                        sh "docker tag devopstp eyasoussi/devopstp:v1"
-                        sh "docker push eyasoussi/devopstp:v1"
+                        sh "docker tag devopstp lobnasellami/devopstp:v1"
+                        sh "docker push lobnasellami/devopstp:v1"
                        }
                    }        
               }
