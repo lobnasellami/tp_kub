@@ -3,7 +3,10 @@ pipeline {
   agent any
 
   environment {
-        dockerCredentials = credentials('dockerCredentials')
+            DOCKER_HUB_CREDENTIALS = credentials('dockerCredentials')
+      
+
+       
     }
 
   stages {
@@ -31,11 +34,10 @@ pipeline {
                         echo "push to hub"
                   withCredentials([usernamePassword(credentialsId: 'dockerCredentials', usernameVariable:
 'USERNAME', passwordVariable: 'PASSWORD')]){
-                                    credentialsId: 'dockerCredentials' //jenkins-github-creds
+                        docker.withRegistry("${DOCKER_HUB_CREDENTIALS}") {
+                        docker.image("lobnasellami/devopstp:latest").push()
 
-                        sh "docker login -u lobnasellami"
-                        sh "docker tag devopstp lobnasellami/devopstp:v1"
-                        sh "docker push lobnasellami/devopstp:v1"
+                        
                        }
                    }        
               }
