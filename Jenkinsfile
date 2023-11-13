@@ -42,7 +42,8 @@ pipeline {
         stage('Deploying App to Kubernetes') {
             steps {
                 script {
-                    sh 'kubectl apply -f allouchi_deployment.yaml'
+                    kubernetesDeploy(configs: "allouchi_deployment.yaml", kubeconfigId: "mykubeconfig")
+
                 }
             }
         }
