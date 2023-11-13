@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('dockerCredentials')
-        DOCKER_IMAGE_NAME = 'lobnasellami/devopstp'
-        DOCKER_IMAGE_TAG = 'latest'
+        DOCKER_HUB_PASSWORD = credentials('Dockerhub_pass')
     }
 
     stages {
@@ -18,7 +16,9 @@ pipeline {
         stage("Build Docker Image") {
             steps {
                 script {
-                    def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
+                sh 'docker build -t lobnasellami/jenkins-pipeline:latest .'
+
+                    
                 }
             }
         }
@@ -28,10 +28,10 @@ pipeline {
                 script {
                     echo "======== executing ========"
                     echo "push to hub"
-                    docker.withRegistry("${DOCKER_HUB_CREDENTIALS}") {
-                        def dockerImage = docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
-                        dockerImage.push()
-                    }
+                 sh 'docker login -u lobnasellami -p $DOCKER_HUB_PASSWORD'
+                 sh 'docker push lobnasellami/jenkins-pipeline:latest'
+
+
                 }
             }
         }
