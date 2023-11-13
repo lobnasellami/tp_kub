@@ -28,10 +28,10 @@ pipeline {
                 script {
                     echo "======== executing ========"
                     echo "push to hub"
-         withCredentials([usernamePassword(credentialsId: 'docker_pass', usernameVariable:
-            'USERNAME', passwordVariable: 'PASSWORD')]){
-                 sh 'docker push lobnasellami/jenkins-pipeline:latest'
-                                      }
+                         docker.withRegistry('https://registry-1.docker.io/v1/', 'docker_pass') {
+                        def dockerImage = docker.image("lobnasellami/jenkins-pipeline:latest")
+                        dockerImage.push()
+
 
                 }
             }
